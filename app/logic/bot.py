@@ -5,17 +5,8 @@ from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 
 from core import settings as S
-from core.constants import BARNEY_SEED_X, BARNEY_SEED_Y, SLOT_FIRST_Y, SLOT_FIRST_X, BARNEY_LOCATION_X, \
-    BARNEY_LOCATION_Y, SLOT_SECOND_X, SLOT_SECOND_Y, SLOT_THIRD_X, SLOT_THIRD_Y, BARNEY_MY_LOCATION_X, \
-    BARNEY_MY_LOCATION_Y, DANGER_DALE_LOCATION_X, DANGER_DALE_LOCATION_Y, HAZEL_LOCATION_X, HAZEL_LOCATION_Y, \
-    LUMBER_JILL_LOCATION_Y, LUMBER_JILL_LOCATION_X, LUMBER_JILL_WOOD_1_Y, LUMBER_JILL_WOOD_1_X, LUMBER_JILL_WOOD_2_Y, \
-    LUMBER_JILL_WOOD_2_X, SLOT_FOURTH_Y, SLOT_FOURTH_X, STICKS_PLANKS_SAW_Y, STICKS_PLANKS_SAW_X, \
-    STICKS_PLANKS_STICK_RECIPE_Y, STICKS_PLANKS_STICK_RECIPE_X, STICKS_PLANKS_ACTION_X, STICKS_PLANKS_ACTION_Y, \
-    STICKS_PLANKS_CLOSE_X, STICKS_PLANKS_CLOSE_Y, STICKS_PLANKS_STAN_Y, STICKS_PLANKS_STAN_X, \
-    STICKS_PLANKS_WOODEN_STOOL_RECIPE_X, STICKS_PLANKS_WOODEN_STOOL_RECIPE_Y, STICKS_PLANKS_OLD_MAN_X, \
-    STICKS_PLANKS_OLD_MAN_Y, SLOT_FIFTH_X, SLOT_FIFTH_Y, KAREN_COOKING_COOKER_X, KAREN_COOKING_COOKER_Y, \
-    KAREN_COOKING_COOKER_POPBERRY_RECIPE_X, KAREN_COOKING_COOKER_POPBERRY_RECIPE_Y, KAREN_COOKING_ACTION_Y, \
-    KAREN_COOKING_ACTION_X, KAREN_COOKING_CLOSE_X, KAREN_COOKING_CLOSE_Y, KAREN_COOKING_KAREN_X, KAREN_COOKING_KAREN_Y
+from core.constants import DEVICE_LOCATIONS
+from core.settings import get_device_name
 from core.utils import get_coordinates
 from logic.pyautogui import move_to_coordinates_and_click, hold_mouse_for_time, press_key, window_is_active
 from logic.tkinter import can_i_continue
@@ -81,68 +72,94 @@ class Bot:
     def barney_quest_plant_seed(self):
         sleep_randomly(1, 2)
         # Take poppery_seed
-        x, y = get_coordinates(SLOT_FIRST_X, SLOT_FIRST_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_FIRST_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_FIRST_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
         # Plant
-        x, y = get_coordinates(BARNEY_SEED_X, BARNEY_SEED_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['BARNEY_SEED_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['BARNEY_SEED_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
     def barney_quest_talk(self):
         # Talk
-        x, y = get_coordinates(BARNEY_LOCATION_X, BARNEY_LOCATION_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['BARNEY_LOCATION_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['BARNEY_LOCATION_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
         sleep_randomly(1, 2)
 
     def barney_quest_water_seed(self):
         sleep_randomly(1, 2)
         # Take water
-        x, y = get_coordinates(SLOT_FIRST_X, SLOT_FIRST_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_FIRST_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_FIRST_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
         # Water
-        x, y = get_coordinates(BARNEY_SEED_X, BARNEY_SEED_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['BARNEY_SEED_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['BARNEY_SEED_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
         # Take off water
-        x, y = get_coordinates(SLOT_FIRST_X, SLOT_FIRST_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_FIRST_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_FIRST_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
     def barney_quest_fertilize_seed(self):
         sleep_randomly(1, 2)
 
         # Take fertilizer
-        x, y = get_coordinates(SLOT_SECOND_X, SLOT_SECOND_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_SECOND_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_SECOND_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
         # Fertilize
-        x, y = get_coordinates(BARNEY_SEED_X, BARNEY_SEED_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['BARNEY_SEED_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['BARNEY_SEED_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
     def barney_quest_cut_seed(self):
         sleep_randomly(1, 2)
 
         # Take shears
-        x, y = get_coordinates(SLOT_SECOND_X, SLOT_SECOND_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_SECOND_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_SECOND_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
         # Cut
-        x, y = get_coordinates(BARNEY_SEED_X, BARNEY_SEED_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['BARNEY_SEED_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['BARNEY_SEED_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
         # Take off shears
-        x, y = get_coordinates(SLOT_SECOND_X, SLOT_SECOND_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_SECOND_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_SECOND_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
     def barney_quest_eat_seed(self):
         sleep_randomly(1, 2)
 
         # Take fertilizer
-        x, y = get_coordinates(SLOT_THIRD_X, SLOT_THIRD_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_THIRD_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_THIRD_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
         # Fertilize
-        x, y = get_coordinates(BARNEY_MY_LOCATION_X, BARNEY_MY_LOCATION_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['BARNEY_MY_LOCATION_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['BARNEY_MY_LOCATION_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
     def barney_quest(self):
@@ -168,7 +185,9 @@ class Bot:
 
     def danger_dale_quest_talk(self):
         # Talk
-        x, y = get_coordinates(DANGER_DALE_LOCATION_X, DANGER_DALE_LOCATION_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['DANGER_DALE_LOCATION_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['DANGER_DALE_LOCATION_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
         sleep_randomly(1, 2)
 
@@ -200,7 +219,9 @@ class Bot:
 
     def buck_galore_quest_talk(self):
         # Talk
-        x, y = get_coordinates(HAZEL_LOCATION_X, HAZEL_LOCATION_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['HAZEL_LOCATION_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['HAZEL_LOCATION_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
         sleep_randomly(1, 2)
 
@@ -248,7 +269,9 @@ class Bot:
 
     def lumber_jill_quest_talk(self):
         # Talk
-        x, y = get_coordinates(LUMBER_JILL_LOCATION_X, LUMBER_JILL_LOCATION_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['LUMBER_JILL_LOCATION_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['LUMBER_JILL_LOCATION_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
         sleep_randomly(1, 2)
 
@@ -256,19 +279,27 @@ class Bot:
         sleep_randomly(1, 2)
 
         # Take axe
-        x, y = get_coordinates(SLOT_FOURTH_X, SLOT_FOURTH_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_FOURTH_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_FOURTH_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
         for i in range(6):
-            x, y = get_coordinates(LUMBER_JILL_WOOD_1_X, LUMBER_JILL_WOOD_1_Y)
+            x_cf = DEVICE_LOCATIONS[get_device_name()]['LUMBER_JILL_WOOD_1_X']
+            y_cf = DEVICE_LOCATIONS[get_device_name()]['LUMBER_JILL_WOOD_1_Y']
+            x, y = get_coordinates(x_cf, y_cf)
             move_to_coordinates_and_click(x, y)
 
         for i in range(6):
-            x, y = get_coordinates(LUMBER_JILL_WOOD_2_X, LUMBER_JILL_WOOD_2_Y)
+            x_cf = DEVICE_LOCATIONS[get_device_name()]['LUMBER_JILL_WOOD_2_X']
+            y_cf = DEVICE_LOCATIONS[get_device_name()]['LUMBER_JILL_WOOD_2_Y']
+            x, y = get_coordinates(x_cf, y_cf)
             move_to_coordinates_and_click(x, y)
 
         # UnTake axe
-        x, y = get_coordinates(SLOT_FOURTH_X, SLOT_FOURTH_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_FOURTH_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_FOURTH_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
     def lumber_jill_quest_collect_woods(self):
@@ -317,57 +348,79 @@ class Bot:
 
     def sticks_planks_quest_talk_stan(self):
         # Talk
-        x, y = get_coordinates(STICKS_PLANKS_STAN_X, STICKS_PLANKS_STAN_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_STAN_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_STAN_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
         sleep_randomly(1, 2)
 
     def sticks_planks_quest_make_sticks(self):
         # Open saw
-        x, y = get_coordinates(STICKS_PLANKS_SAW_X, STICKS_PLANKS_SAW_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_SAW_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_SAW_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
         sleep_exact(2)
 
         # Sticks
-        x, y = get_coordinates(STICKS_PLANKS_STICK_RECIPE_X, STICKS_PLANKS_STICK_RECIPE_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_STICK_RECIPE_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_STICK_RECIPE_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
         for i in range(8):
             # Create
-            x, y = get_coordinates(STICKS_PLANKS_ACTION_X, STICKS_PLANKS_ACTION_Y)
+            x_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_ACTION_X']
+            y_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_ACTION_Y']
+            x, y = get_coordinates(x_cf, y_cf)
             move_to_coordinates_and_click(x, y)
             # Wait craft
             sleep_randomly(12, 13)
             # Collect
-            x, y = get_coordinates(STICKS_PLANKS_ACTION_X, STICKS_PLANKS_ACTION_Y)
+            x_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_ACTION_X']
+            y_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_ACTION_Y']
+            x, y = get_coordinates(x_cf, y_cf)
             move_to_coordinates_and_click(x, y)
 
         # Close
-        x, y = get_coordinates(STICKS_PLANKS_CLOSE_X, STICKS_PLANKS_CLOSE_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_CLOSE_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_CLOSE_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
     def sticks_planks_quest_make_wooden_stool(self):
         # Open saw
-        x, y = get_coordinates(STICKS_PLANKS_SAW_X, STICKS_PLANKS_SAW_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_SAW_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_SAW_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
         sleep_exact(2)
 
         # Sticks
-        x, y = get_coordinates(STICKS_PLANKS_WOODEN_STOOL_RECIPE_X, STICKS_PLANKS_WOODEN_STOOL_RECIPE_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_WOODEN_STOOL_RECIPE_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_WOODEN_STOOL_RECIPE_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
         # Create
-        x, y = get_coordinates(STICKS_PLANKS_ACTION_X, STICKS_PLANKS_ACTION_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_ACTION_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_ACTION_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
         # Wait craft
         sleep_exact(32)
         # Collect
-        x, y = get_coordinates(STICKS_PLANKS_ACTION_X, STICKS_PLANKS_ACTION_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_ACTION_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_ACTION_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
         # Close
-        x, y = get_coordinates(STICKS_PLANKS_CLOSE_X, STICKS_PLANKS_CLOSE_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_CLOSE_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_CLOSE_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
     def sticks_planks_quest_old_man_deliver(self):
@@ -383,7 +436,9 @@ class Bot:
 
     def sticks_planks_quest_talk_old_man(self):
         # Talk
-        x, y = get_coordinates(STICKS_PLANKS_OLD_MAN_X, STICKS_PLANKS_OLD_MAN_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_OLD_MAN_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_OLD_MAN_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
         sleep_randomly(1, 2)
 
@@ -424,43 +479,61 @@ class Bot:
 
     def karen_cooking_quest_talk_karen(self):
         # Talk
-        x, y = get_coordinates(KAREN_COOKING_KAREN_X, KAREN_COOKING_KAREN_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['KAREN_COOKING_KAREN_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['KAREN_COOKING_KAREN_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
         sleep_randomly(1, 2)
 
     def karen_cooking_quest_wood_cooker(self):
         # Take Wood
-        x, y = get_coordinates(SLOT_FIFTH_X, SLOT_FIFTH_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_FIFTH_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_FIFTH_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
         # Fire
-        x, y = get_coordinates(KAREN_COOKING_COOKER_X, KAREN_COOKING_COOKER_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['KAREN_COOKING_COOKER_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['KAREN_COOKING_COOKER_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
         # Take off Wood
-        x, y = get_coordinates(SLOT_FIFTH_X, SLOT_FIFTH_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_FIFTH_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_FIFTH_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
     def karen_cooking_quest_cook(self):
-        x, y = get_coordinates(KAREN_COOKING_COOKER_X, KAREN_COOKING_COOKER_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['KAREN_COOKING_COOKER_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['KAREN_COOKING_COOKER_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
         sleep_exact(2)
 
-        x, y = get_coordinates(KAREN_COOKING_COOKER_POPBERRY_RECIPE_X, KAREN_COOKING_COOKER_POPBERRY_RECIPE_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['KAREN_COOKING_COOKER_POPBERRY_RECIPE_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['KAREN_COOKING_COOKER_POPBERRY_RECIPE_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
         # Create
-        x, y = get_coordinates(KAREN_COOKING_ACTION_X, KAREN_COOKING_ACTION_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['KAREN_COOKING_ACTION_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['KAREN_COOKING_ACTION_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
         # Wait craft
         sleep_exact(26)
         # Collect
-        x, y = get_coordinates(KAREN_COOKING_ACTION_X, KAREN_COOKING_ACTION_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['KAREN_COOKING_ACTION_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['KAREN_COOKING_ACTION_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
         # Close
-        x, y = get_coordinates(KAREN_COOKING_CLOSE_X, KAREN_COOKING_CLOSE_Y)
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['KAREN_COOKING_CLOSE_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['KAREN_COOKING_CLOSE_Y']
+        x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
     def karen_cooking_quest_go_out_from_cooking(self):

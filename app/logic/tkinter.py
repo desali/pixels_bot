@@ -10,7 +10,7 @@ from core.settings import set_screen_size, devices
 def request_and_set_coordinates():
     def on_device_selected(event):
         device_name = combo_box.get()
-        set_screen_size(*devices[device_name])
+        set_screen_size(device_name, *devices[device_name])
         root.destroy()
 
     root = tk.Tk()
