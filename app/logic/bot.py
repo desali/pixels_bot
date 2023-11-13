@@ -428,7 +428,7 @@ class Bot:
         self.browser.hold_key_for_time(Keys.UP, 1.5)
         self.browser.hold_key_for_time(Keys.LEFT, 3.8)
         self.browser.hold_key_for_time(Keys.UP, 0.8)
-        self.browser.hold_key_for_time(Keys.LEFT, 14.2)
+        self.browser.hold_key_for_time(Keys.LEFT, 13)
         self.browser.hold_key_for_time(Keys.UP, 1)
         can_continue = can_i_continue('Убедись что персонаж в уголке море...')
         if not can_continue:
@@ -448,7 +448,7 @@ class Bot:
         self.browser.hold_key_for_time(Keys.DOWN, 0.8)
         self.browser.hold_key_for_time(Keys.RIGHT, 3.6)
         self.browser.hold_key_for_time(Keys.DOWN, 1.5)
-        self.browser.hold_key_for_time(Keys.RIGHT, 1.5)
+        self.browser.hold_key_for_time(Keys.RIGHT, 1.7)
 
         can_continue = can_i_continue('Убедись что персонаж в цветочке...')
         if not can_continue:
