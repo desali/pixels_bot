@@ -1,14 +1,15 @@
 import sys
 import time
 
+from core.settings import USER
 from logic.bot import Bot
 from logic.browser import Browser
 from logic.tkinter import request_and_set_coordinates, can_i_continue, get_chrome_version_and_selenium_port
 
 selenium_port, chrome_version = get_chrome_version_and_selenium_port()
 
-chrome_driver_path = f"C:\\Users\\serge\\AppData\\Roaming\\adspower_global\\cwd_global\\chrome_{chrome_version}\\chromedriver.exe"
 selenium_address = f"127.0.0.1:{selenium_port}"
+chrome_driver_path = f"C:\\Users\\{USER}\\AppData\\Roaming\\adspower_global\\cwd_global\\chrome_{chrome_version}\\chromedriver.exe"
 browser = Browser(None, chrome_driver_path, selenium_address)
 bot = Bot(browser)
 

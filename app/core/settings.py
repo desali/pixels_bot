@@ -1,9 +1,9 @@
 import os
 
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
 
-# load_dotenv()
+load_dotenv()
 
 # ADS
 ADS_URL = "http://local.adspower.net:50325"
@@ -18,6 +18,8 @@ SCREEN_TL_X = 0
 SCREEN_TL_Y = 0
 SCREEN_BR_X = 0
 SCREEN_BR_Y = 0
+
+USER = os.getenv('USER')
 
 devices = {
     "Выберите": (),
