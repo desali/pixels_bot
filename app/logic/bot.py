@@ -315,7 +315,7 @@ class Bot:
         self.browser.hold_key_for_time(Keys.LEFT, 0.5)
         self.browser.hold_key_for_time(Keys.DOWN, 0.6)
         self.browser.hold_key_for_time(Keys.RIGHT, 0.5)
-        self.browser.hold_key_for_time(Keys.DOWN, 0.25)
+        self.browser.hold_key_for_time(Keys.DOWN, 0.35)
         self.browser.hold_key_for_time(Keys.RIGHT, 0.2)
         can_continue = can_i_continue('Убедись что персонаж в яме...')
         if not can_continue:
