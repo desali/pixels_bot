@@ -291,12 +291,12 @@ class Bot:
             sys.exit()
 
     def lumber_jill_quest(self):
-        # try:
-        #     self.wait_location_change()
-        # except:
-        #     can_continue = can_i_continue('Я должен быть перед Buck Galore...')
-        #     if not can_continue:
-        #         sys.exit()
+        try:
+            self.wait_location_change()
+        except:
+            can_continue = can_i_continue('Я должен быть перед Buck Galore...')
+            if not can_continue:
+                sys.exit()
         self.walk_from_buck_galore_to_jill()
         self.lumber_jill_quest_talk()
         self.dialogue_skip()
