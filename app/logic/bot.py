@@ -262,7 +262,7 @@ class Bot:
         self.browser.hold_key_for_time(Keys.DOWN, 3.7)
         self.browser.hold_key_for_time(Keys.LEFT, 4.2)
         self.browser.hold_key_for_time(Keys.DOWN, 7.2)
-        self.browser.hold_key_for_time(Keys.LEFT, 2)
+        self.browser.hold_key_for_time(Keys.LEFT, 1.8)
         can_continue = can_i_continue('Убедись что персонаж в яме...')
         if not can_continue:
             sys.exit()
@@ -315,7 +315,7 @@ class Bot:
         self.browser.hold_key_for_time(Keys.LEFT, 0.5)
         self.browser.hold_key_for_time(Keys.DOWN, 0.6)
         self.browser.hold_key_for_time(Keys.RIGHT, 0.5)
-        self.browser.hold_key_for_time(Keys.DOWN, 0.5)
+        self.browser.hold_key_for_time(Keys.DOWN, 0.25)
         self.browser.hold_key_for_time(Keys.RIGHT, 0.2)
         can_continue = can_i_continue('Убедись что персонаж в яме...')
         if not can_continue:
@@ -341,7 +341,7 @@ class Bot:
         self.browser.hold_key_for_time(Keys.UP, 2.5)
         self.browser.hold_key_for_time(Keys.RIGHT, 10.5)
         self.browser.hold_key_for_time(Keys.UP, 2)
-        self.browser.hold_key_for_time(Keys.RIGHT, 1.3)
+        self.browser.hold_key_for_time(Keys.RIGHT, 1.2)
         can_continue = can_i_continue('Убедись что персонаж в цветочке...')
         if not can_continue:
             sys.exit()
@@ -426,9 +426,9 @@ class Bot:
     def sticks_planks_quest_old_man_deliver(self):
         self.browser.hold_key_for_time(Keys.LEFT, 1.2)
         self.browser.hold_key_for_time(Keys.UP, 1.5)
-        self.browser.hold_key_for_time(Keys.LEFT, 3.6)
+        self.browser.hold_key_for_time(Keys.LEFT, 3.8)
         self.browser.hold_key_for_time(Keys.UP, 0.8)
-        self.browser.hold_key_for_time(Keys.LEFT, 14)
+        self.browser.hold_key_for_time(Keys.LEFT, 14.2)
         self.browser.hold_key_for_time(Keys.UP, 1)
         can_continue = can_i_continue('Убедись что персонаж в уголке море...')
         if not can_continue:
@@ -443,12 +443,12 @@ class Bot:
         sleep_randomly(1, 2)
 
     def sticks_planks_quest_from_old_to_stan(self):
-        self.browser.hold_key_for_time(Keys.DOWN, 0.8)
+        self.browser.hold_key_for_time(Keys.DOWN, 0.85)
         self.browser.hold_key_for_time(Keys.RIGHT, 14)
         self.browser.hold_key_for_time(Keys.DOWN, 0.8)
         self.browser.hold_key_for_time(Keys.RIGHT, 3.6)
         self.browser.hold_key_for_time(Keys.DOWN, 1.5)
-        self.browser.hold_key_for_time(Keys.RIGHT, 1.2)
+        self.browser.hold_key_for_time(Keys.RIGHT, 1.5)
 
         can_continue = can_i_continue('Убедись что персонаж в цветочке...')
         if not can_continue:
