@@ -1,7 +1,7 @@
 import sys
 import time
 
-from core.settings import USER
+from app.core.settings import USER
 from logic.bot import Bot
 from logic.browser import Browser
 from logic.tkinter import request_and_set_coordinates, can_i_continue, get_chrome_version_and_selenium_port

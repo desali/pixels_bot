@@ -1,7 +1,5 @@
 import pyautogui
 
-from core.settings import get_screen_size
-
 x, y = pyautogui.position()
 print(x, y)
 

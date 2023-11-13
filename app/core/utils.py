@@ -1,6 +1,6 @@
 import json
 
-from core.settings import get_screen_size
+from app.core.settings import get_screen_size
 
 
 def read_file_data(filename):

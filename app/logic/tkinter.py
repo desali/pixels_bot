@@ -4,7 +4,7 @@ from tkinter import simpledialog
 
 import pyperclip
 
-from core.settings import set_screen_size, devices
+from app.core.settings import set_screen_size, devices
 
 
 def request_and_set_coordinates():
