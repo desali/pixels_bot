@@ -428,7 +428,7 @@ class Bot:
         self.browser.hold_key_for_time(Keys.UP, 1.5)
         self.browser.hold_key_for_time(Keys.LEFT, 3.8)
         self.browser.hold_key_for_time(Keys.UP, 0.8)
-        self.browser.hold_key_for_time(Keys.LEFT, 14)
+        self.browser.hold_key_for_time(Keys.LEFT, 13.8)
         self.browser.hold_key_for_time(Keys.UP, 1)
         can_continue = can_i_continue('Убедись что персонаж в уголке море...')
         if not can_continue:
@@ -443,12 +443,12 @@ class Bot:
         sleep_randomly(1, 2)
 
     def sticks_planks_quest_from_old_to_stan(self):
-        self.browser.hold_key_for_time(Keys.DOWN, 0.85)
+        self.browser.hold_key_for_time(Keys.DOWN, 0.9)
         self.browser.hold_key_for_time(Keys.RIGHT, 14)
         self.browser.hold_key_for_time(Keys.DOWN, 0.8)
         self.browser.hold_key_for_time(Keys.RIGHT, 3.6)
-        self.browser.hold_key_for_time(Keys.DOWN, 1.5)
-        self.browser.hold_key_for_time(Keys.RIGHT, 1.45)
+        self.browser.hold_key_for_time(Keys.DOWN, 1.45)
+        self.browser.hold_key_for_time(Keys.RIGHT, 1.3)
 
         can_continue = can_i_continue('Убедись что персонаж в цветочке...')
         if not can_continue:
@@ -472,7 +472,7 @@ class Bot:
         self.dialogue_skip()
 
     def walk_from_stan_to_karen(self):
-        self.browser.hold_key_for_time(Keys.LEFT, 1.15)
+        self.browser.hold_key_for_time(Keys.LEFT, 1.2)
         self.browser.hold_key_for_time(Keys.UP, 13)
         self.browser.hold_key_for_time(Keys.LEFT, 8.4)
         self.browser.hold_key_for_time(Keys.UP, 4.5)
