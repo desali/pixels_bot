@@ -38,3 +38,5 @@ bot.planter_buy_seeds(seed_title, seed_count)
 
 # Plant seeds
 farms = bot.planter_plant_in_farms(seed_count)
+
+bot.planter_plant_water_1000()

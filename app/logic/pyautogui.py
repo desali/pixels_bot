@@ -21,6 +21,10 @@ def move_to_coordinates_and_click(x, y, secs=1):
     sleep_exact(secs)
 
 
+def just_click(x, y):
+    pyautogui.click(x, y, interval=0.01)
+
+
 def window_is_active(title="pixels: an infinite"):
     windows = pyautogui.getWindowsWithTitle(title)
     if not windows:

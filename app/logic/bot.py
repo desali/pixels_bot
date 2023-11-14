@@ -1,4 +1,5 @@
 import sys
+import time
 
 import pyautogui as pyautogui
 from selenium.webdriver import Keys
@@ -9,7 +10,8 @@ from app.core.constants import DEVICE_LOCATIONS, POPBERRY_SEED_TYPE, BUTTERBERRY
     SEED_NEED_ENERGY, SEED_NEED_BERRY
 from app.core.settings import get_device_name
 from app.core.utils import get_coordinates
-from app.logic.pyautogui import move_to_coordinates_and_click, hold_mouse_for_time, press_key, window_is_active
+from app.logic.pyautogui import move_to_coordinates_and_click, hold_mouse_for_time, press_key, window_is_active, \
+    just_click
 from app.logic.tkinter import can_i_continue
 from app.logic.utils import sleep_randomly, sleep_exact
 
@@ -728,26 +730,28 @@ class Bot:
         move_to_coordinates_and_click(x, y)
 
         # Search seed
+        time.sleep(1)
         search_input = self.browser.get_element(By.XPATH,
                                                 "//input[@type='text' and contains(@class, 'Store_filter__')]")
         search_input.send_keys(seed_title)
-
+        time.sleep(1)
         need_seed = self.browser.get_element(By.XPATH, "(//div[contains(@class, 'Store_store-item-container__')])[1]")
         self.browser.click_element(need_seed)
-
+        time.sleep(1)
         # Buy
+        time.sleep(1)
         quantity_input = self.browser.get_element(By.XPATH,
                                                   "//input[@type='number' and contains(@class, 'Store_quantity-input')]")
         quantity_input.clear()
         quantity_input.send_keys(count)
-
+        time.sleep(1)
         buy_button = self.browser.get_element(By.XPATH,
                                               "//button[contains(@class, 'Store_buy-btn__') and contains(text(), 'Buy')]")
         self.browser.click_element(buy_button)
-
+        time.sleep(1)
         close_button = self.browser.get_element(By.XPATH, "//button[contains(@class, 'commons_closeBtn__')]")
         self.browser.click_element(close_button)
-
+        time.sleep(1)
     def planter_plant_in_farms(self, seed_count):
         if seed_count >= 121:
             need_farms = 3
@@ -813,21 +817,21 @@ class Bot:
             if not can_continue:
                 sys.exit()
 
-    def planter_farm_clicker(self, xl, xr, yt, yb, x_bs, y_bs):
+    def planter_farm_clicker(self, xl=0.432, xr=0.596, yt=0.286, yb=0.707, x_bs=8, y_bs=12):
         x_width = xr - xl
         y_height = yb - yt
-        x_blocks = x_bs * 1.5
-        y_blocks = y_bs * 1.5
+        x_blocks = x_bs
+        y_blocks = y_bs
         for i in range(x_blocks):
             for j in range(y_blocks):
                 x_cf = xl + (x_width / x_blocks * i)
                 y_cf = yt + (y_height / y_blocks * j)
                 x, y = get_coordinates(x_cf, y_cf)
-                move_to_coordinates_and_click(x, y)
+                just_click(x, y)
 
     def planter_plant_water_1000(self):
         self.browser.hold_key_for_time(Keys.UP, 5)
-        self.browser.hold_key_for_time(Keys.LEFT, 2.5)
+        self.browser.hold_key_for_time(Keys.LEFT, 2.3)
 
         # Take seed
         x_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_FIRST_X']
@@ -835,15 +839,15 @@ class Bot:
         x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
-        self.planter_farm_clicker(0.432, 0.596, 0.286, 0.707, 4, 6)
+        self.planter_farm_clicker()
 
-        self.browser.hold_key_for_time(Keys.LEFT, 1.1)
+        self.browser.hold_key_for_time(Keys.LEFT, 1)
 
-        self.planter_farm_clicker(0.432, 0.596, 0.286, 0.707, 4, 6)
+        self.planter_farm_clicker()
 
-        self.browser.hold_key_for_time(Keys.LEFT, 1.1)
+        self.browser.hold_key_for_time(Keys.LEFT, 1)
 
-        self.planter_farm_clicker(0.432, 0.596, 0.286, 0.707, 4, 6)
+        self.planter_farm_clicker()
 
         # Take Water
         x_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_SECOND_X']
@@ -851,15 +855,15 @@ class Bot:
         x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
 
-        self.planter_farm_clicker(0.432, 0.662, 0.286, 0.710, 4, 6)
+        self.planter_farm_clicker()
 
-        self.browser.hold_key_for_time(Keys.LEFT, 1.1)
+        self.browser.hold_key_for_time(Keys.RIGHT, 1)
 
-        self.planter_farm_clicker(0.432, 0.662, 0.286, 0.710, 4, 6)
+        self.planter_farm_clicker()
 
-        self.browser.hold_key_for_time(Keys.LEFT, 1.1)
+        self.browser.hold_key_for_time(Keys.RIGHT, 1)
 
-        self.planter_farm_clicker(0.432, 0.662, 0.286, 0.710, 4, 6)
+        self.planter_farm_clicker()
 
         # Untake Water
         x_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_SECOND_X']
