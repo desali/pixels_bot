@@ -1,5 +1,5 @@
 import pyautogui
-from logic.utils import sleep_randomly, sleep_exact
+from app.logic.utils import sleep_randomly, sleep_exact
 import time
 
 

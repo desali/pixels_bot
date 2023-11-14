@@ -4,14 +4,14 @@ import pyautogui as pyautogui
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 
-from core import settings as S
+from app.core import settings as S
 from app.core.constants import DEVICE_LOCATIONS, POPBERRY_SEED_TYPE, BUTTERBERRY_SEED_TYPE, GRAINBOW_SEED_TYPE, \
     SEED_NEED_ENERGY, SEED_NEED_BERRY
 from app.core.settings import get_device_name
 from app.core.utils import get_coordinates
-from logic.pyautogui import move_to_coordinates_and_click, hold_mouse_for_time, press_key, window_is_active
-from logic.tkinter import can_i_continue
-from logic.utils import sleep_randomly, sleep_exact
+from app.logic.pyautogui import move_to_coordinates_and_click, hold_mouse_for_time, press_key, window_is_active
+from app.logic.tkinter import can_i_continue
+from app.logic.utils import sleep_randomly, sleep_exact
 
 
 class Bot:

@@ -1,6 +1,6 @@
 import requests
 
-from core import settings as S
+from app.core import settings as S
 
 
 class AdsService:

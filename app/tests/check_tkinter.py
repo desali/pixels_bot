@@ -1,6 +1,6 @@
 import sys
 
-from logic.tkinter import can_i_continue
+from app.logic.tkinter import can_i_continue
 
 print("start")
 
