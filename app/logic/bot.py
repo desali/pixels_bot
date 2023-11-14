@@ -5,9 +5,10 @@ from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 
 from core import settings as S
-from core.constants import DEVICE_LOCATIONS
-from core.settings import get_device_name
-from core.utils import get_coordinates
+from app.core.constants import DEVICE_LOCATIONS, POPBERRY_SEED_TYPE, BUTTERBERRY_SEED_TYPE, GRAINBOW_SEED_TYPE, \
+    SEED_NEED_ENERGY, SEED_NEED_BERRY
+from app.core.settings import get_device_name
+from app.core.utils import get_coordinates
 from logic.pyautogui import move_to_coordinates_and_click, hold_mouse_for_time, press_key, window_is_active
 from logic.tkinter import can_i_continue
 from logic.utils import sleep_randomly, sleep_exact
@@ -225,8 +226,8 @@ class Bot:
         move_to_coordinates_and_click(x, y)
         sleep_randomly(1, 2)
 
-    def buck_galore_quest_go_out_from_bg(self):
-        self.browser.hold_keys_for_time(Keys.LEFT, Keys.DOWN, 4)
+    def buck_galore_quest_go_out_from_bg(self, secs):
+        self.browser.hold_keys_for_time(Keys.LEFT, Keys.DOWN, secs)
 
     def buck_galore_quest(self):
         try:
@@ -245,7 +246,7 @@ class Bot:
         self.walk_to_hazel_in_bg()
         self.buck_galore_quest_talk()
         self.dialogue_skip()
-        self.buck_galore_quest_go_out_from_bg()
+        self.buck_galore_quest_go_out_from_bg(4)
 
     def image_point_travel(self, image):
         location = pyautogui.locateCenterOnScreen(f"images/{image}.png", confidence=0.8)
@@ -643,3 +644,381 @@ class Bot:
         self.browser.click_element(element)
 
         self.ronin_sign()
+
+    def get_my_level(self):
+        level = 0
+
+        skills_button = self.browser.get_element(By.XPATH, "//button[.//img[@aria-label='Skills']]")
+        self.browser.click_element(skills_button)
+
+        err = self.browser.wait_presence_located(By.XPATH, "//div[starts-with(@class, 'Skills_skillPopup')]")
+        if err is not None:
+            print(err)
+            return level
+
+        levels = self.browser.get_elements_universal(By.XPATH,
+                                                     "(//div[contains(@class, 'Skills_skillSlot')])[1]//span[not(contains(@class, 'skillDivider'))]")
+        level = int(levels[0].text)
+
+        self.browser.click_element_class_contains('button', 'commons_closeBtn')
+
+        return level
+
+    def get_my_berry(self):
+        berry_span = self.browser.get_element(By.XPATH,
+                                              "//div[contains(@class, 'Hud_berry__')]//span[contains(@class, 'commons_coinBalance__')]")
+        berry = int(berry_span.text.split(',')[0].replace('.', ''))
+
+        return berry
+
+    def get_my_energy(self):
+        energy_span = self.browser.get_element(By.XPATH,
+                                               "//div[contains(@class, 'Hud_energy__')]//span[contains(@class, 'commons_coinBalance__')]")
+        energy = int(energy_span.text.split(',')[0].replace('.', ''))
+
+        return energy
+
+    def get_optimal_seed_for_level(self, level):
+        if level <= 1:
+            seed = POPBERRY_SEED_TYPE
+        elif 2 <= level <= 4:
+            seed = BUTTERBERRY_SEED_TYPE
+        else:
+            seed = GRAINBOW_SEED_TYPE
+
+        return seed
+
+    def get_optimal_count_for_buy(self, need_seed, my_berry, my_energy):
+        farm_3 = 180
+        farm_2 = 120
+        farm_1 = 60
+
+        if farm_3 * SEED_NEED_BERRY[need_seed] <= my_berry and farm_3 * SEED_NEED_ENERGY[need_seed] <= my_energy:
+            return farm_3
+        elif farm_2 * SEED_NEED_BERRY[need_seed] <= my_berry and farm_2 * SEED_NEED_ENERGY[need_seed] <= my_energy:
+            return farm_2
+        elif farm_1 * SEED_NEED_BERRY[need_seed] <= my_berry and farm_1 * SEED_NEED_ENERGY[need_seed] <= my_energy:
+            return farm_1
+
+        count_for_energy = my_energy // SEED_NEED_ENERGY[need_seed]
+        count_for_berry = my_berry // SEED_NEED_BERRY[need_seed]
+
+        return min(count_for_energy, count_for_berry)
+
+    def planter_calculate_need_seeds(self):
+        my_level = self.get_my_level()
+        my_berry = self.get_my_berry()
+        my_energy = self.get_my_energy()
+        print('my_level', my_level)
+        print('my_berry', my_berry)
+        print('my_energy', my_energy)
+
+        need_seed = self.get_optimal_seed_for_level(my_level)
+        need_count = self.get_optimal_count_for_buy(need_seed, my_berry, my_energy)
+
+        return need_seed, need_count
+
+    def planter_buy_seeds(self, seed_title, count):
+        self.walk_to_hazel_in_bg()
+
+        # Open shop
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['BG_SHOP_LOCATION_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['BG_SHOP_LOCATION_Y']
+        x, y = get_coordinates(x_cf, y_cf)
+        move_to_coordinates_and_click(x, y)
+
+        # Search seed
+        search_input = self.browser.get_element(By.XPATH,
+                                                "//input[@type='text' and contains(@class, 'Store_filter__')]")
+        search_input.send_keys(seed_title)
+
+        need_seed = self.browser.get_element(By.XPATH, "(//div[contains(@class, 'Store_store-item-container__')])[1]")
+        self.browser.click_element(need_seed)
+
+        # Buy
+        quantity_input = self.browser.get_element(By.XPATH,
+                                                  "//input[@type='number' and contains(@class, 'Store_quantity-input')]")
+        quantity_input.clear()
+        quantity_input.send_keys(count)
+
+        buy_button = self.browser.get_element(By.XPATH,
+                                              "//button[contains(@class, 'Store_buy-btn__') and contains(text(), 'Buy')]")
+        self.browser.click_element(buy_button)
+
+        close_button = self.browser.get_element(By.XPATH, "//button[contains(@class, 'commons_closeBtn__')]")
+        self.browser.click_element(close_button)
+
+    def planter_plant_in_farms(self, seed_count):
+        if seed_count >= 121:
+            need_farms = 3
+        elif seed_count >= 61:
+            need_farms = 2
+        else:
+            need_farms = 1
+
+        bookmarks_button = self.browser.get_element(By.XPATH, "//button[.//img[@aria-label='Land and Bookmarks']]")
+        self.browser.click_element(bookmarks_button)
+
+        err = self.browser.wait_presence_located(By.XPATH, "//div[starts-with(@class, 'LandAndTravel_container__')]")
+        if err is not None:
+            print(err)
+
+        travel_buttons = self.browser.get_elements_universal(By.XPATH,
+                                                             "//button[starts-with(@class, 'LandAndTravel_tab__')]")
+        self.browser.click_element(travel_buttons[-1])
+
+        err = self.browser.wait_presence_located(By.XPATH, "//div[starts-with(@class, 'LandAndTravel_mapSquare')]")
+        if err is not None:
+            print(err)
+
+        farm_numbers = self.browser.get_elements_universal(By.XPATH, "//div[contains(@class, 'LandAndTravel_mapsSquare')]//div[contains(@class, 'LandAndTravel_mapSquare')]/div[1]")
+        need_farm_numbers = farm_numbers[:need_farms]
+
+        farms_to_visit = []
+        for need_farm in need_farm_numbers:
+            need_farm = need_farm.text.replace('#', '')
+            farms_to_visit.append(need_farm)
+
+        close_button = self.browser.get_element(By.XPATH, "//button[contains(@class, 'commons_closeBtn__')]")
+        self.browser.click_element(close_button)
+
+        for farm in farms_to_visit:
+            farm_number = int(farm)
+            self.planter_plant_in_farm(farm_number)
+
+    def planter_visit_farm(self, farm_number):
+        bookmarks_button = self.browser.get_element(By.XPATH, "//button[.//img[@aria-label='Land and Bookmarks']]")
+        self.browser.click_element(bookmarks_button)
+
+        err = self.browser.wait_presence_located(By.XPATH, "//div[starts-with(@class, 'LandAndTravel_container__')]")
+        if err is not None:
+            print(err)
+
+        travel_buttons = self.browser.get_elements_universal(By.XPATH,
+                                                             "//button[starts-with(@class, 'LandAndTravel_tab__')]")
+        self.browser.click_element(travel_buttons[-1])
+
+        err = self.browser.wait_presence_located(By.XPATH, "//div[starts-with(@class, 'LandAndTravel_mapSquare')]")
+        if err is not None:
+            print(err)
+
+        need_farm_button = self.browser.get_element(By.XPATH,
+                                                    f"//div[contains(@class, 'LandAndTravel_mapSquare') and div[1][contains(text(), '#{farm_number}')]]//button")
+        self.browser.click_element(need_farm_button)
+
+        try:
+            self.wait_location_change()
+        except:
+            can_continue = can_i_continue('Я должен быть перед Buck Galore...')
+            if not can_continue:
+                sys.exit()
+
+    def planter_farm_clicker(self, xl, xr, yt, yb, x_bs, y_bs):
+        x_width = xr - xl
+        y_height = yb - yt
+        x_blocks = x_bs * 1.5
+        y_blocks = y_bs * 1.5
+        for i in range(x_blocks):
+            for j in range(y_blocks):
+                x_cf = xl + (x_width / x_blocks * i)
+                y_cf = yt + (y_height / y_blocks * j)
+                x, y = get_coordinates(x_cf, y_cf)
+                move_to_coordinates_and_click(x, y)
+
+    def planter_plant_water_1000(self):
+        self.browser.hold_key_for_time(Keys.UP, 5)
+        self.browser.hold_key_for_time(Keys.LEFT, 2.5)
+
+        # Take seed
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_FIRST_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_FIRST_Y']
+        x, y = get_coordinates(x_cf, y_cf)
+        move_to_coordinates_and_click(x, y)
+
+        self.planter_farm_clicker(0.432, 0.596, 0.286, 0.707, 4, 6)
+
+        self.browser.hold_key_for_time(Keys.LEFT, 1.1)
+
+        self.planter_farm_clicker(0.432, 0.596, 0.286, 0.707, 4, 6)
+
+        self.browser.hold_key_for_time(Keys.LEFT, 1.1)
+
+        self.planter_farm_clicker(0.432, 0.596, 0.286, 0.707, 4, 6)
+
+        # Take Water
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_SECOND_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_SECOND_Y']
+        x, y = get_coordinates(x_cf, y_cf)
+        move_to_coordinates_and_click(x, y)
+
+        self.planter_farm_clicker(0.432, 0.662, 0.286, 0.710, 4, 6)
+
+        self.browser.hold_key_for_time(Keys.LEFT, 1.1)
+
+        self.planter_farm_clicker(0.432, 0.662, 0.286, 0.710, 4, 6)
+
+        self.browser.hold_key_for_time(Keys.LEFT, 1.1)
+
+        self.planter_farm_clicker(0.432, 0.662, 0.286, 0.710, 4, 6)
+
+        # Untake Water
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_SECOND_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['SLOT_SECOND_Y']
+        x, y = get_coordinates(x_cf, y_cf)
+        move_to_coordinates_and_click(x, y)
+
+    def planter_plant_water_2123(self):
+        pass
+
+    def planter_plant_water_4717(self):
+        pass
+
+    def planter_plant_water(self, farm_number):
+        if farm_number == 1000:
+            self.planter_plant_water_1000()
+        elif farm_number == 2123:
+            self.planter_plant_water_2123()
+        elif farm_number == 4717:
+            self.planter_plant_water_4717()
+
+    def planter_plant_in_farm(self, farm_number):
+        self.planter_visit_farm(farm_number)
+        self.planter_plant_water(farm_number)
+
+    def bookmarker_walk_from_bg_to_farms(self):
+        self.browser.hold_key_for_time(Keys.LEFT, 1)
+        self.browser.hold_keys_for_time(Keys.LEFT, Keys.DOWN, 0.2)
+        self.browser.hold_key_for_time(Keys.LEFT, 2)
+        self.browser.hold_keys_for_time(Keys.LEFT, Keys.UP, 0.2)
+        self.browser.hold_key_for_time(Keys.LEFT, 2.8)
+        self.browser.hold_keys_for_time(Keys.LEFT, Keys.DOWN, 0.3)
+        self.browser.hold_key_for_time(Keys.LEFT, 2.1)
+        self.browser.hold_keys_for_time(Keys.LEFT, Keys.UP, 0.25)
+        self.browser.hold_key_for_time(Keys.LEFT, 1.7)
+        self.browser.hold_key_for_time(Keys.UP, 0.6)
+
+    def bookmarker_walk_from_in_bg_to_farms(self):
+        self.buck_galore_quest_go_out_from_bg(1)
+        try:
+            self.wait_location_change()
+        except:
+            can_continue = can_i_continue('Я должен быть перед Buck Galore...')
+            if not can_continue:
+                sys.exit()
+        self.bookmarker_walk_from_bg_to_farms()
+
+    def bookmarker_farms_visit_farm(self, farm):
+        try:
+            self.wait_location_change()
+        except:
+            can_continue = can_i_continue('Я должен быть внутри магазина Фермы...')
+            if not can_continue:
+                sys.exit()
+
+        self.browser.hold_key_for_time(Keys.RIGHT, 1.7)
+        self.browser.hold_key_for_time(Keys.UP, 4)
+        self.browser.hold_key_for_time(Keys.RIGHT, 0.5)
+
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['FARMS_RED_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['FARMS_RED_Y']
+        x, y = get_coordinates(x_cf, y_cf)
+        move_to_coordinates_and_click(x, y)
+
+        err = self.browser.wait_presence_located(By.XPATH, "//div[starts-with(@class, 'LandAndTravel_container')]")
+        if err is not None:
+            print(err)
+            sys.exit()
+
+        # Buy
+        farm_input = self.browser.get_element(By.XPATH,
+                                              "//input[@type='number' and contains(@class, 'LandAndTravel_numberInput')]")
+        farm_input.clear()
+        farm_input.send_keys(farm)
+
+        go_button = self.browser.get_element(By.XPATH, "//div[contains(@class, 'LandAndTravel_optionButtons')]//button")
+        self.browser.click_element(go_button)
+
+    def bookmarker_bookmark_farm(self, farm):
+        try:
+            self.wait_location_change()
+        except:
+            can_continue = can_i_continue(f"Я должен быть внутри Фермы {farm}...")
+            if not can_continue:
+                sys.exit()
+
+        x_cf = DEVICE_LOCATIONS[get_device_name()]['FARM_TITLE_X']
+        y_cf = DEVICE_LOCATIONS[get_device_name()]['FARM_TITLE_Y']
+        x, y = get_coordinates(x_cf, y_cf)
+        move_to_coordinates_and_click(x, y)
+
+        err = self.browser.wait_presence_located(By.XPATH, "//div[starts-with(@class, 'FarmDetails_FarmDetailsPanel')]")
+        if err is not None:
+            print(err)
+            sys.exit()
+
+        bookmark_button = self.browser.get_element(By.XPATH,
+                                                   "//div[contains(@class, 'FarmDetails_FarmDetailsActions')]//button[contains(text(), 'Bookmark')]")
+        self.browser.click_element(bookmark_button)
+
+        close_button = self.browser.get_element(By.XPATH, "//button[contains(@class, 'commons_closeBtn__')]")
+        self.browser.click_element(close_button)
+
+    def bookmarker_go_from_farm_to_sauna_1000(self):
+        self.browser.hold_key_for_time(Keys.UP, 4.5)
+        self.browser.hold_key_for_time(Keys.LEFT, 1.2)
+        self.browser.hold_key_for_time(Keys.UP, 2.3)
+
+    def bookmarker_go_from_farm_to_sauna_2123(self):
+        self.browser.hold_key_for_time(Keys.UP, 2.9)
+        self.browser.hold_key_for_time(Keys.LEFT, 2.6)
+
+    def bookmarker_go_from_farm_to_sauna_4717(self):
+        self.browser.hold_key_for_time(Keys.UP, 1.3)
+        self.browser.hold_key_for_time(Keys.LEFT, 2.3)
+
+    def bookmarker_go_from_farm_to_sauna(self, farm):
+        if farm == 1000:
+            self.bookmarker_go_from_farm_to_sauna_1000()
+        elif farm == 2123:
+            self.bookmarker_go_from_farm_to_sauna_2123()
+        elif farm == 4717:
+            self.bookmarker_go_from_farm_to_sauna_4717()
+
+        try:
+            self.wait_location_change()
+        except:
+            can_continue = can_i_continue(f"Я должен быть внутри Сауны...")
+            if not can_continue:
+                sys.exit()
+
+    def go_out_from_sauna(self):
+        self.browser.hold_key_for_time(Keys.DOWN, 0.5)
+
+    def walk_from_sauna_to_farms(self):
+        self.browser.hold_key_for_time(Keys.DOWN, 0.3)
+        self.browser.hold_key_for_time(Keys.RIGHT, 1.6)
+        self.browser.hold_key_for_time(Keys.UP, 0.7)
+
+    def bookmarker_walk_from_in_sauna_to_farms(self):
+        self.go_out_from_sauna()
+        try:
+            self.wait_location_change()
+        except:
+            can_continue = can_i_continue(f"Я должен быть перед Сауной...")
+            if not can_continue:
+                sys.exit()
+
+        self.walk_from_sauna_to_farms()
+
+    def bookmarker_walk_from_in_sauna_to_buck_galore(self):
+        self.go_out_from_sauna()
+        try:
+            self.wait_location_change()
+        except:
+            can_continue = can_i_continue(f"Я должен быть перед Сауной...")
+            if not can_continue:
+                sys.exit()
+
+        self.browser.hold_key_for_time(Keys.DOWN, 0.15)
+        self.browser.hold_key_for_time(Keys.RIGHT, 1.6)
+        self.walk_from_farm_to_buck_galore()

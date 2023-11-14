@@ -76,6 +76,9 @@ class Browser:
     def get_elements(self, tag, class_name):
         return self.D.find_elements(By.XPATH, f"//{tag}[starts-with(@class, '{class_name}')]")
 
+    def get_elements_universal(self, by, value):
+        return self.D.find_elements(by, value)
+
     def hold_key_for_time(self, key, seconds):
         actions = ActionChains(self.D)
         actions.key_down(key)

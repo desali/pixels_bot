@@ -3,6 +3,26 @@ import time
 
 time.sleep(2)
 
-pyautogui.keyDown('s')
-time.sleep(0.6)
-pyautogui.keyUp('s')
+pyautogui.keyDown('w')
+time.sleep(5)
+pyautogui.keyUp('w')
+
+pyautogui.keyDown('a')
+time.sleep(2.3)
+pyautogui.keyUp('a')
+
+pyautogui.keyDown('a')
+time.sleep(0.52)
+pyautogui.keyUp('a')
+
+pyautogui.keyDown('a')
+time.sleep(0.52)
+pyautogui.keyUp('a')
+
+pyautogui.keyDown('a')
+time.sleep(0.52)
+pyautogui.keyUp('a')
+
+
+
+
