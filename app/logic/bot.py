@@ -379,7 +379,7 @@ class Bot:
             x, y = get_coordinates(x_cf, y_cf)
             move_to_coordinates_and_click(x, y)
             # Wait craft
-            sleep_randomly(12, 13)
+            sleep_randomly(13, 14)
             # Collect
             x_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_ACTION_X']
             y_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_ACTION_Y']
@@ -413,7 +413,7 @@ class Bot:
         x, y = get_coordinates(x_cf, y_cf)
         move_to_coordinates_and_click(x, y)
         # Wait craft
-        sleep_exact(32)
+        sleep_exact(33)
         # Collect
         x_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_ACTION_X']
         y_cf = DEVICE_LOCATIONS[get_device_name()]['STICKS_PLANKS_ACTION_Y']
