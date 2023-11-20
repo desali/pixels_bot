@@ -10,7 +10,8 @@ ADS_API = "api/v1"
 ADS_BROWSER_START_URL = "browser/start"
 
 # PIXELS
-PIXELS_MAIN_URL = "https://play.pixels.xyz/"
+PIXELS_MAIN_TEXT = "play.pixels.xyz"
+PIXELS_MAIN_URL = f"https://{PIXELS_MAIN_TEXT}/"
 
 # SCREEN SIZE
 SCREEN_TL_X = 0

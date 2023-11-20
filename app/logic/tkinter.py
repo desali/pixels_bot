@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-from tkinter import simpledialog
 
 import pyperclip
 
@@ -27,7 +26,7 @@ def request_and_set_coordinates():
     root.mainloop()
 
 
-def can_i_continue(text):
+def can_i_continue(title, description=""):
     def on_continue():
         nonlocal choice
         choice = True
@@ -35,7 +34,10 @@ def can_i_continue(text):
 
     window = tk.Tk()
     window.geometry("600x600")
-    window.title(text)
+    window.title(title)
+
+    description_label = tk.Label(window, text=description)
+    description_label.pack(pady=10)
 
     yes_button = tk.Button(window, text="Продолжай...", command=on_continue)
     yes_button.pack(pady=30)
@@ -98,3 +100,38 @@ def get_ads_profile_id():
     profile_id = ""
     root.mainloop()
     return profile_id
+
+
+def left_right_checker(title, description=""):
+    def on_continue():
+        nonlocal side, countdown
+        side = side_var.get()
+        countdown = int(countdown_entry.get())
+
+        window.destroy()
+
+    window = tk.Tk()
+    window.geometry("1000x600")
+    window.title(title)
+
+    description_label = tk.Label(window, text=description)
+    description_label.pack(pady=10)
+
+    side_var = tk.StringVar(value='none')
+
+    radio_left = tk.Radiobutton(window, text="Left", variable=side_var, value="left")
+    radio_right = tk.Radiobutton(window, text="Right", variable=side_var, value="right")
+
+    radio_left.pack()
+    radio_right.pack()
+
+    countdown_entry = tk.Entry(window)
+    countdown_entry.pack()
+
+    yes_button = tk.Button(window, text="Продолжай...", command=on_continue)
+    yes_button.pack(pady=30)
+
+    side = side_var.get()
+    countdown = 0
+    window.mainloop()
+    return side, countdown

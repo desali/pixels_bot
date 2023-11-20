@@ -1,3 +1,4 @@
+import random
 import sys
 import time
 
@@ -7,8 +8,8 @@ from selenium.webdriver.common.by import By
 
 from app.core import settings as S
 from app.core.constants import DEVICE_LOCATIONS, POPBERRY_SEED_TYPE, BUTTERBERRY_SEED_TYPE, GRAINBOW_SEED_TYPE, \
-    SEED_NEED_ENERGY, SEED_NEED_BERRY
-from app.core.settings import get_device_name
+    SEED_NEED_ENERGY, SEED_NEED_BERRY, LDir, RDir, TDir, BDir, TLDir, TRDir, BLDir, BRDir
+from app.core.settings import get_device_name, PIXELS_MAIN_TEXT
 from app.core.utils import get_coordinates
 from app.logic.pyautogui import move_to_coordinates_and_click, hold_mouse_for_time, press_key, window_is_active, \
     just_click
@@ -23,7 +24,8 @@ class Bot:
         self.browser = browser
 
     def open_main_menu(self):
-        self.browser.D.get(f"{S.PIXELS_MAIN_URL}")
+        if PIXELS_MAIN_TEXT not in self.browser.D.current_url:
+            self.browser.D.get(f"{S.PIXELS_MAIN_URL}")
 
     def wait_location_change(self):
         self.browser.wait_for_opacity("div", "GameContainer_gameCover_", 1)
@@ -1026,3 +1028,45 @@ class Bot:
         self.browser.hold_key_for_time(Keys.DOWN, 0.15)
         self.browser.hold_key_for_time(Keys.RIGHT, 1.6)
         self.walk_from_farm_to_buck_galore()
+
+    def left_right_move(self, direction):
+        start_time = time.time()
+
+        if direction == LDir:
+            self.browser.hold_key_for_time(Keys.LEFT, 1.92)
+            self.browser.hold_key_for_time(Keys.RIGHT, 1.45)
+        elif direction == RDir:
+            self.browser.hold_key_for_time(Keys.RIGHT, 1.94)
+            self.browser.hold_key_for_time(Keys.LEFT, 1.46)
+        elif direction == TDir:
+            self.browser.hold_key_for_time(Keys.UP, 1.93)
+            self.browser.hold_key_for_time(Keys.DOWN, 1.47)
+        elif direction == BDir:
+            self.browser.hold_key_for_time(Keys.DOWN, 1.99)
+            self.browser.hold_key_for_time(Keys.UP, 1.41)
+        elif direction == TLDir:
+            self.browser.hold_keys_for_time(Keys.UP, Keys.LEFT, 1.93)
+            self.browser.hold_keys_for_time(Keys.DOWN, Keys.RIGHT, 1.90)
+        elif direction == TRDir:
+            self.browser.hold_keys_for_time(Keys.UP, Keys.RIGHT, 1.92)
+            self.browser.hold_keys_for_time(Keys.DOWN, Keys.LEFT, 1.95)
+        elif direction == BLDir:
+            self.browser.hold_keys_for_time(Keys.DOWN, Keys.LEFT, 1.97)
+            self.browser.hold_keys_for_time(Keys.UP, Keys.RIGHT, 1.96)
+        elif direction == BRDir:
+            self.browser.hold_keys_for_time(Keys.DOWN, Keys.RIGHT, 1.91)
+            self.browser.hold_keys_for_time(Keys.UP, Keys.LEFT, 1.92)
+
+        end_time = time.time()
+        total_secs = int(end_time - start_time)
+        return total_secs
+
+    def left_right_one_minute(self, directions):
+        seconds = 60
+        seconds_before_move = random.randint(5, 40)
+        time.sleep(seconds_before_move)
+
+        move_secs = self.left_right_move(random.choice(directions))
+
+        seconds_after_move = seconds - seconds_before_move - move_secs
+        time.sleep(seconds_after_move)

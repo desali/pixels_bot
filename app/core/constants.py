@@ -28,6 +28,14 @@ SEED_NEED_BERRY = {
     GRAINBOW_SEED_TYPE: 3
 }
 
+# Left Right
+LeftSide, RightSide = 'left', 'right'
+SIDES = [LeftSide, RightSide]
+
+LDir, RDir, TDir, BDir, TLDir, TRDir, BLDir, BRDir = 'l', 'r', 't', 'b', 'tl', 'tr', 'bl', 'br'
+LDirections = [LDir, TDir, BDir, TLDir, BLDir]
+RDirections = [RDir, TDir, BDir, TRDir, BRDir]
+
 # errors
 PROXY_ERROR = 'proxy_error'
 ACCOUNT_ERROR = 'account_error'
